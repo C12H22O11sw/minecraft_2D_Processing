@@ -1,12 +1,20 @@
+import java.util.Random;
 void setup(){
  size(1920,1000);
  background(0,119,200);
  frameRate(1);
+ rand = new Random(393344416);
 }
-int psudoRandom(int input, int maxRange){
-
-  randomSeed(input);
-  return (int)random(-(maxRange/2),maxRange/2);
+Random rand;
+int psudoRandom(int input, int maxRange,int bias){
+  return rand.nextInt(maxRange)-(maxRange/2)+bias;
+}
+int psudoRandom_2(int index){
+  for(int i = 0; i< index; i++){
+   // for(j
+  
+  }
+return 1;
 }
 
 void makeBlock(int x, int y,color BlockColor){
@@ -53,7 +61,7 @@ class Block{
 
 
 class World{
-  Block[][] world = new Block[1000][250];
+  Block[][] world = new Block[1000][251];
   void makeWorld(){
     for(int i = 0; i<193; i++){
       for(int j = 0; j<blockY - 1; j++){
@@ -78,8 +86,16 @@ class World{
         }
         world[i][j].makeBlock();
       }
-    blockY+=blockTrend;
-    blockTrend += psudoRandom(i,4);//random(4)-21
+    if(blockY<249){
+    blockY+=blockTrend+2;
+    }
+    else{
+      blockTrend = 0;
+    }
+    if(abs(blockTrend) > 2){
+      blockTrend /= 2;
+    }
+    blockTrend += (psudoRandom(393344416,4,-(blockY/50)))/2;//random(4)-21
     
   }
   
@@ -97,10 +113,6 @@ void draw(){
   fill(0,0,255);
     rect(0,0,200,200);
     fill(stone);
-   text(psudoRandom(bla,4),100,100);
+   text(psudoRandom(393344416,4,-(blockY/50)),100,100);
   }
-
-   
-
-   
 }
