@@ -5,7 +5,7 @@ float blockTrend = 0;
 int blockExponential = 0;
 int randomSeed = 393344416;
 int blockRandom = (int)random(4);
-int blockSize = 16;
+int blockSize = 32;
 int playersX;
 int playersY;
 int panX;
@@ -69,7 +69,7 @@ void setup(){
  gravleBlock     = loadImage("gravleBlock.gif");
 
 
- displayImage = loadImage("desplayImage.gif");
+ displayImage = loadImage("displayImage.gif");
 }
 Random rand;
 int psudoRandom(int maxRange,int bias){
@@ -91,15 +91,24 @@ class Block{
   }
   void makeBlock(){
     switch(type){
-      case 0:    displayImage = skyBlock;      break;
-      case 1:    displayImage = coalOreBlock;    break;
-      case 2:    displayImage = dirtBlock;    break;
-      case 3:    displayImage = grassBlock;     break;
-      case 4:    fill(gold);     break;
-      case 5:    fill(iron);     break;
-      case 6:    fill(diamond);  break;
-      case 7:    fill(coal);     break;
-    }
+      case 0:      displayImage = skyBlock;             break;
+      case 1:      displayImage = grassBlock;           break;
+      case 2:      displayImage = dirtBlock;            break;
+      case 3:      displayImage = stoneBlock;           break;
+      case 4:      displayImage = coalOreBlock;         break;
+      case 5:      displayImage = ironOreBlock;         break;
+      case 6:      displayImage = goldOreBlock;         break;
+      case 7:      displayImage = diamondOreBlock;      break;
+      case 8:      displayImage = emeraldOreBlock;      break;
+      case 9:      displayImage = silverOreBlock;       break;
+      case 10:     displayImage = waterBlock;           break;
+      case 11:     displayImage = lapisOreBlock;        break;
+      case 12:     displayImage = redstoneOreBlock;     break;
+      case 13:     displayImage = oakLogBlock;          break;
+      case 14:     displayImage = gravleBlock;          break;
+
+
+  }
      //rect((x-1)*blockSize+100,height-(y*blockSize),blockSize,blockSize);
      image(displayImage, (x-1)*blockSize+100, height-(y*blockSize)+panY, blockSize, blockSize);
   }
@@ -202,9 +211,9 @@ class World{
           thing += blockTrend; 
           blockY+=thing/30;
           for(int k = 0; k< blockY-1 && k < 500; k++){  
-            blockType[i][k]   = 1;
+            blockType[i][k]   = (int)random(11)+2;
             blockType[i][k+1] = 2;
-            blockType[i][k+2] = 3;
+            blockType[i][k+2] = 1;
           }
     }
   }
