@@ -32,7 +32,16 @@ PImage grassBlock;
 PImage dirtBlock; 
 PImage stoneBlock; 
 PImage coalOreBlock; 
-
+PImage ironOreBlock; 
+PImage goldOreBlock; 
+PImage diamondOreBlock; 
+PImage emeraldOreBlock; 
+PImage silverOreBlock; 
+PImage waterBlock; 
+PImage lapisOreBlock; 
+PImage redstoneOreBlock; 
+PImage oakLogBlock; 
+PImage gravleBlock; 
 
 PImage displayImage;
 
@@ -43,14 +52,24 @@ void setup(){
  background(sky);
  frameRate(10);
  rand = new Random(randomSeed);
- skyBlock = loadImage("skyBlock.gif");
- grassBlock = loadImage("grassBlock.gif");
- dirtBlock = loadImage("dirtBlock.gif");
- stoneBlock = loadImage("stoneBlock.gif");
- coalOreBlock = loadImage("coalOreBlock.gif");
+ skyBlock        = loadImage("skyBlock.gif");
+ grassBlock      = loadImage("grassBlock.gif");
+ dirtBlock       = loadImage("dirtBlock.gif");
+ stoneBlock      = loadImage("stoneBlock.gif");
+ coalOreBlock    = loadImage("coalOreBlock.gif");
+ ironOreBlock    = loadImage("ironOreBlock.gif");
+ goldOreBlock    = loadImage("goldOreBlock.gif");
+ diamondOreBlock = loadImage("diamondOreBlock.gif");
+ emeraldOreBlock = loadImage("emeraldOreBlock.gif");
+ silverOreBlock  = loadImage("silverOreBlock.gif");
+ waterBlock      = loadImage("waterBlock.gif");
+ lapisOreBlock   = loadImage("lapisOreBlock.gif");
+ redstoneOreBlock= loadImage("redstoneOreBlock.gif");
+ oakLogBlock     = loadImage("oakLogBlock.gif");
+ gravleBlock     = loadImage("gravleBlock.gif");
 
 
- displayImage = loadImage("defaltImage.gif");
+ displayImage = loadImage("desplayImage.gif");
 }
 Random rand;
 int psudoRandom(int maxRange,int bias){
@@ -73,7 +92,7 @@ class Block{
   void makeBlock(){
     switch(type){
       case 0:    displayImage = skyBlock;      break;
-      case 1:    displayImage = stoneBlock;    break;
+      case 1:    displayImage = coalOreBlock;    break;
       case 2:    displayImage = dirtBlock;    break;
       case 3:    displayImage = grassBlock;     break;
       case 4:    fill(gold);     break;
