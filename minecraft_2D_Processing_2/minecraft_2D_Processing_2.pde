@@ -1,11 +1,11 @@
 import java.util.Random;
 
-int blockY = 200;
+int blockY = 500;
 float blockTrend = 0;
 int blockExponential = 0;
 int randomSeed = 393344416;
 int blockRandom = (int)random(4);
-int blockSize = 32;
+int blockSize = 16;
 int playersX;
 int playersY;
 int panX;
@@ -27,21 +27,21 @@ color   diamond  =   color  (  0,  255,  255);
 color   coal     =   color  ( 26,   26,   26);
 color   sky      =   color  (173,  255,  255);
 
-PImage skyBlock; 
-PImage grassBlock; 
-PImage dirtBlock; 
-PImage stoneBlock; 
-PImage coalOreBlock; 
-PImage ironOreBlock; 
-PImage goldOreBlock; 
-PImage diamondOreBlock; 
-PImage emeraldOreBlock; 
-PImage silverOreBlock; 
-PImage waterBlock; 
-PImage lapisOreBlock; 
-PImage redstoneOreBlock; 
-PImage oakLogBlock; 
-PImage gravleBlock; 
+PImage skyBlock;        int skyID;
+PImage grassBlock;      int grassID; 
+PImage dirtBlock;       int dirtID; 
+PImage stoneBlock;      int stoneID;
+PImage coalOreBlock;    int coalOreID;
+PImage ironOreBlock;    int ironOreID;
+PImage goldOreBlock;    int goldOreID;
+PImage diamondOreBlock; int diamondOreID;
+PImage emeraldOreBlock; int emeraldOreID;
+PImage silverOreBlock;  int silverOreID;
+PImage waterBlock;      int waterID;
+PImage lapisOreBlock;   int lapisOreID;
+PImage redstoneOreBlock;int redstoneOreID;
+PImage oakLogBlock;     int oakLogID;
+PImage gravleBlock;     int gravleID;
 
 PImage displayImage;
 
@@ -52,21 +52,21 @@ void setup(){
  background(sky);
  frameRate(10);
  rand = new Random(randomSeed);
- skyBlock        = loadImage("skyBlock.gif");
- grassBlock      = loadImage("grassBlock.gif");
- dirtBlock       = loadImage("dirtBlock.gif");
- stoneBlock      = loadImage("stoneBlock.gif");
- coalOreBlock    = loadImage("coalOreBlock.gif");
- ironOreBlock    = loadImage("ironOreBlock.gif");
- goldOreBlock    = loadImage("goldOreBlock.gif");
- diamondOreBlock = loadImage("diamondOreBlock.gif");
- emeraldOreBlock = loadImage("emeraldOreBlock.gif");
- silverOreBlock  = loadImage("silverOreBlock.gif");
- waterBlock      = loadImage("waterBlock.gif");
- lapisOreBlock   = loadImage("lapisOreBlock.gif");
- redstoneOreBlock= loadImage("redstoneOreBlock.gif");
- oakLogBlock     = loadImage("oakLogBlock.gif");
- gravleBlock     = loadImage("gravleBlock.gif");
+ skyBlock        = loadImage("skyBlock.gif");        skyID = 0;         
+ grassBlock      = loadImage("grassBlock.gif");      grassID = 1;
+ dirtBlock       = loadImage("dirtBlock.gif");       dirtID = 2;
+ stoneBlock      = loadImage("stoneBlock.gif");      stoneID = 3;
+ coalOreBlock    = loadImage("coalOreBlock.gif");    coalOreID = 4;
+ ironOreBlock    = loadImage("ironOreBlock.gif");    ironOreID = 5;
+ goldOreBlock    = loadImage("goldOreBlock.gif");    goldOreID = 6;
+ diamondOreBlock = loadImage("diamondOreBlock.gif"); diamondOreID = 7;
+ emeraldOreBlock = loadImage("emeraldOreBlock.gif"); emeraldOreID = 8;
+ silverOreBlock  = loadImage("silverOreBlock.gif");  silverOreID = 9;
+ waterBlock      = loadImage("waterBlock.gif");      waterID = 10;
+ lapisOreBlock   = loadImage("lapisOreBlock.gif");   lapisOreID = 11;
+ redstoneOreBlock= loadImage("redstoneOreBlock.gif");redstoneOreID = 12;
+ oakLogBlock     = loadImage("oakLogBlock.gif");     oakLogID = 13;
+ gravleBlock     = loadImage("gravleBlock.gif");     gravleID = 14;
 
  displayImage = loadImage("displayImage.gif");
 }
@@ -158,8 +158,7 @@ class Player{
     playersY = y;
     rect(x - blockSize+90,drawY+panY-blockSize,blockSize,2*blockSize);
     fill(0,255,0);
-    rect(x - blockSize,drawY+panY,4,4);
-    panX = -x;
+    rect(x-(panX*blockSize),drawY+panY,4,4);
   }  
   int X(){
     return x; 
@@ -171,11 +170,12 @@ class Player{
 
 class World{
   
-  Block[][] world = new Block[1000][1000];
+  Block[][] world = new Block[10000][1000];
   void generateTerain(){
     blockY = 40;
     float randomHolder;
     float thing = 0;
+    int blockTypeHolder = 0;
     for(int i = 0; i<500; i++){
           randomHolder = random(100);
           
@@ -204,13 +204,40 @@ class World{
           else if(randomHolder < 22)
             blockTrend = -1;
             
-          else
+          else{}
             blockTrend = 0;
  
           thing += blockTrend; 
           blockY+=thing/30;
-          for(int k = 0; k< blockY-1 && k < 500; k++){  
-            blockType[i][k]   = (int)random(11)+2;
+          for(int k = 0; k< blockY-1 && k < 500; k++){
+            
+            
+            
+          randomHolder = random(1000); 
+          if(randomHolder > k*100 && randomHolder%100<2)
+            blockTypeHolder = emeraldOreID;
+            
+          else if(randomHolder > k*100 && randomHolder%50<2)
+            blockTypeHolder = diamondOreID;
+            
+          else if(randomHolder > k*10 && randomHolder%130<2)
+            blockTypeHolder = ironOreID;
+            
+          else if(randomHolder > k*100 && randomHolder%30<2)
+            blockTypeHolder = goldOreID;
+            
+          else if(randomHolder%50<2)
+            blockTypeHolder = coalOreID;
+            
+          else if(randomHolder%1000<2)
+            blockTypeHolder = oakLogID;
+            
+          else if(randomHolder > k*100 && randomHolder%53<2)
+            blockTypeHolder = waterID;
+          else
+            blockTypeHolder = stoneID;
+
+            blockType[i][k] = blockTypeHolder;
             blockType[i][k+1] = 2;
             blockType[i][k+2] = 1;
           }
@@ -220,17 +247,25 @@ class World{
     blockY = 40;
     for(int i = 0; i<1000; i++){
       for(int j = 0; j< 1000; j++){
-        world[i][j] = new Block(i,j,blockType[i][j]);
-        world[i][j].makeBlock();         
+        if(i-panX>0){
+          world[i-panX][j] = new Block(i,j,blockType[i][j]);
+          world[i-panX][j].makeBlock(); 
+        }        
       }
     }
   }
   void remakeWorld(int x, int y, int range){
     blockY = 40;
-    for(int i = x-range; i<x+range; i++){
-      for(int j = y-range; j< y+range; j++){
-        if(i > 0 && i < 1000 && j > 0 && j < 1000){
-          world[i][j] = new Block(i,j,blockType[i][j]);
+    int iLoopStart = x-range;
+    int jLoopStart = y-range;
+    if(x>=range)
+      iLoopStart = 0;
+    if(y>=range)
+      jLoopStart = 0;
+    for(int i = iLoopStart; i<x+range; i++){
+      for(int j = jLoopStart; j< y+range; j++){
+        if(i > panX && i < 10000 && j > panY && j < 1000){
+          world[i][j] = new Block(i,j,blockType[i-panX][j]);
           world[i][j].makeBlock();
         }
       }
@@ -255,8 +290,7 @@ void draw(){
   }
   else{
     fill(stone);
-
-
+    if(player.Y()/blockSize>0)
     if(blockType[player.X()/blockSize][player.Y()/blockSize] <1){
       player.fall();
     }
@@ -280,5 +314,17 @@ void draw(){
       overWorld.remakeWorld(player.X()/blockSize+1,player.Y()/blockSize,5);
       player.drawPlayer();
   } 
+  if(player.X()>width+panX){
+    panX+=width/blockSize;
+    overWorld.makeWorld();
+  }
+  fill(0,0,0);
+  rect(850,50,100,100);
+  fill(255,255,255);
+  text(player.X(),900,70);
+  fill(255,255,0);
+  text(panX,900,100);
+    fill(255,0,0);
+  text(panX,900,130);
 }
   
