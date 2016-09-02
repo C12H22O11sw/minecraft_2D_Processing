@@ -8,7 +8,7 @@
     int blockRandom = (int)random(4);
     int blockSize = 8;
     int panX;
-    int panY = ((-100)*blockSize);
+    int panY = 0;
     int seaLevel = 30;
   //floats/doubles
     float blockTrend;
@@ -51,6 +51,7 @@
   //minecraft objects
     World overworld = new World();
     Player player = new Player();
+    Blocker blocker = new Blocker();
 
 void setup(){
  size(1920,  1000);
@@ -100,48 +101,26 @@ void draw(){
     isWorldMade = true;
   }
   else{
-    fill(stone);
-    if(overworld.elevation[player.X()/blockSize] < player.Y()/blockSize && player.Y()>0){
-      player.fall();
+    if(blockType[player.x][(int)player.y-2] == skyID){
+      player.moveY(-0.5);
+      rect(1450,450,200,200);
+      fill(0,0,0);
+      text(blocker.x +" " +blocker.y,1500,500);
+    }else if(blockType[player.x][(int)player.y-2] == waterID){
+      player.moveY(-0.5);
     }
-    else if(overworld.elevation[player.X()/blockSize] > player.Y()/blockSize){
-      player.setY(overworld.elevation[player.X()/blockSize]*blockSize);
+    if(keyPRESSED == 'd' && keyPressed && (blockType[player.x+2][(int)player.y] == waterID || blockType[player.x+2][(int)player.y] == skyID)){
+      player.moveX(1);
+    }else if(keyPRESSED == 'a' && keyPressed && (blockType[player.x-2][(int)player.y] == waterID || blockType[player.x-2][(int)player.y] == skyID)){
+      player.moveX(-1);
+    }else if(keyPRESSED == ' ' && keyPressed && blockType[player.x][(int)player.y-2] != skyID){
+      player.moveY(2);
     }
-    else if(keyPRESSED == ' ' && keyPressed){
-      if(player.isFlying()){
-        player.fly(10);
-      }
-      else{
-        player.jump();
-        player.fall(); 
-      }
-    }
-    else{
-      player.snapToGridY();
-    }
-    if(keyPRESSED == 'd' && keyPressed){
-      if(blockType[player.X()/blockSize+1][player.Y()/blockSize+1] <1){
-        player.moveX(blockSize);
-      }
-    }
-    else if(keyPRESSED == 'a' && keyPressed && player.X() > blockSize){
-      text("wtsvf",500,500);
-      if(blockType[player.X()/blockSize-1][player.Y()/blockSize+1] <1){
-        player.moveX(-blockSize);
-      }
-    }
-      overworld.remakeWorld(player.X()/blockSize+1,player.Y()/blockSize,5);
-      player.drawPlayer();
   }
-  fill(0,0,0);
-  rect(50,50,100,100);
-  fill(255,0,0);
-  text(player.Y() +" "+player.X(),100,100);
-  if(panY<0){
-    panY = 4*blockSize;
-  }
-  if(panX<2*blockSize){
-    panX = 2*blockSize;
-    overworld.makeWorld();
-  }
+  overworld.remakeWorld((int)player.x,(int)player.y,3);
+  //player.snapToGrid();
+  player.drawPlayer();
+  blocker.refresh(player.x,player.y);
+
+
 }
